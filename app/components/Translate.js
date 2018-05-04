@@ -62,8 +62,18 @@ class Translate extends Component<Props> {
 
   }
 
-
  }
+
+   previousTranslation() {
+       const { counter, width } = this.state;
+       const{manifest} = this.props;
+
+       if (counter  > 0 ) {
+
+        this.setState({ counter: this.state.counter - 1 });
+       }
+
+   }
 
   render() {
     const { unzipFile, language, files, manifest, saveTranslation, translation, generatingFile, fileGenerated } = this.props;
@@ -78,6 +88,7 @@ class Translate extends Component<Props> {
      if(fileGenerated) {
     topText = 'You translated into:'
      }
+     const devKeys = manifest[counter].devKeys;
 
     return (
       <Container>
@@ -89,28 +100,29 @@ class Translate extends Component<Props> {
         {generatingFile ? <Loading text={"Generating file..."} />
         :
         fileGenerated ?
-        <FinalContainer>
+        <div style={{position:'absolute', height:'100%', width:'100%', display:'flex', justifyContent:'center', alignItems:'center', flexDirection:'column'}}>
           <Link to="/"><MorphIcon type="home" size={220} thickness={6} color="	#00FF00" /></Link>
           <p>Your file has been generated on Desktop!</p>
-        </FinalContainer>
+        </div>
         :
         <MenuContainer>
           <Img src={manifest[counter].img_url} alt="world" />
           <UserInteractionContainer>
               <div>
                  {manifest[counter].text.map((tx,index) => <TextInputsContainer
-                   ref = {this.textInputsContainer}
                    key={index}
                    counter={counter}
+                   inputValue={ translation ? translation[devKeys[index]] : null }
                    saveTranslation={saveTranslation}
                    translation={translation}
                    text={tx}
                    devId={index}
-                   devKeys={manifest[counter].devKeys}
+                   devKeys={devKeys}
                    nextTranslation={()=>this.nextTranslation()}
 
                     />)}
                     <Button changeStyl={width < 1200 } onClick={()=> this.nextTranslation()} >{textButton} <MorphIcon type={arrowDirection} size={20} thickness={1} color="#FFF" /></Button>
+                    {counter > 0 ?<BackButton  onClick={()=> this.previousTranslation()} ><MorphIcon type="arrowLeft" size={20} thickness={1} color="#FFF" /> Back </BackButton>: ''}
               </div>
 
 
@@ -127,7 +139,7 @@ class Translate extends Component<Props> {
 }
 
 
-const zoomInAnimation = keyframes`${zoomIn}`
+const zoomInAnimationTranslate = keyframes`${zoomIn}`
 const Container = styled.div`
 
 `;
@@ -141,20 +153,49 @@ const Img = styled.img`
 const Button = styled.button`
   position: absolute;
   top: 80%;
-  left: ${props => props.changeStyl ? ' 900px' : '75%'};
+  left: ${props => props.changeStyl ? ' 900px' : '85%'};
   display: flex;
   align-items: center;
   justify-content:center;
   text-align: center;
   color: white;
-  background: linear-gradient(to bottom, #56ab2f, #a8e063);
+  border: 2px solid black;
+  background-color: transparent;
+  border-color: #32CD32;
   height:50px;
-  width:250px;
+  width:150px;
   font-size: 20px;
   font-weight: 100;
-  border: none;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
   cursor: pointer;
+  outline:none;
+  :hover{
+    background-color: #32CD32;
+  }
+`;
+
+const BackButton = styled.button`
+  position: absolute;
+  top: 80%;
+  left: ${props => props.changeStyl ? ' 900px' : '70%'};
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  text-align: center;
+  color: white;
+  background-color: transparent;
+  height:50px;
+  width:150px;
+  font-size: 20px;
+  font-weight: 100;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  outline:none;
+  border: 2px solid black;
+  border-color: #DC143C;
+  :hover{
+    background-color: #DC143C;
+  }
 `;
 
 const FinalContainer = styled.div`
@@ -167,7 +208,7 @@ display: flex;
 align-items: center;
 justify-content: center;
 flex-direction:column;
-animation: ${zoomInAnimation} .2s ease-in;
+animation: ${zoomInAnimationTranslate} .2s ease-in;
 `;
 
 
@@ -200,33 +241,13 @@ padding-top:10%;
  }
 `;
 
-const LanguageContainer = styled.div`
-  display: flex;
-  width: 40%;
-  justify-content: center;
-  align-items: center;
-  input{
-    height: 20px;
-    margin-right: 40px;
-    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: red;
-    opacity: .5; /* Firefox */
-    text-align: center;
-}
-  }
-
-`;
-
-const NextContainer = styled.div`
-  margin-left: 40px;
-  `;
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({ unzipFile, saveLanguage, saveTranslation, generateFile }, dispatch);
 };
 
 const mapStateToProps = state => {
-  const { loading, language, manifest, translation, generatingFile, fileGenerated } = state.translator;
+  const { loading, language, manifest, translation, generatingFile, fileGenerated  } = state.translator;
   return { loading, language, manifest, translation, generatingFile, fileGenerated };
 }
 

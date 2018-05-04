@@ -47,14 +47,15 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         generatingFile: false,
         filesExtracted: false,
-        fileGenerated: true
+        fileGenerated: true,
+        translation: {}
       };
 
     case 'SAVE_TRANSLATION':
       return { ...state, translation: { ...state.translation, [action.devKey]: action.text }}
 
     case 'DELETING_FILE':
-       return { ...state, fileGenerated: false }
+      return { ...state, fileGenerated: false }
 
     case 'RESET':
       return INITIAL_STATE;

@@ -4,9 +4,9 @@
   "version": "0.13.2",
   "description": "Electron application based on react, the goal of this app is to translate variables for an application ",
   "scripts": {
-    "build": "concurrently \"npm run build-main\" \"npm run build-renderer\"",
+    "build": "concurrently \"npm run build-main\" \"npm run build-renderer\" ",
     "build-dll": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.dev.dll.js --colors",
-    "build-main": "cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.main.prod.js --colors",
+    "build-main": "cross-env  NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.main.prod.js --colors",
     "build-renderer": "cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.prod.js --colors",
     "dev": "cross-env START_HOT=1 node -r babel-register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 npm run start-renderer-dev",
     "electron-rebuild": "electron-rebuild --parallel --force --types prod,dev,optional --module-dir app",
@@ -32,7 +32,7 @@
   },
   "browserslist": "electron 1.6",
   "build": {
-    "productName": "ElectronReact",
+    "productName": "Localizer",
     "appId": "org.develar.ElectronReact",
     "files": [
       "dist/",
@@ -140,7 +140,7 @@
     "css-loader": "^0.28.9",
     "detect-port": "^1.2.2",
     "electron": "^1.7.11",
-    "electron-builder": "^19.56.2",
+    "electron-builder": "^19.55.3",
     "electron-devtools-installer": "^2.2.3",
     "electron-rebuild": "^1.7.3",
     "enzyme": "^3.3.0",
@@ -193,8 +193,9 @@
     "history": "^4.7.2",
     "jszip": "^3.1.5",
     "load-awesome": "^1.1.0",
+    "lodash": "^4.17.10",
     "node-stream-zip": "^1.7.0",
-    "react": "^16.2.0",
+    "react": "^16.3.2",
     "react-animations": "^1.0.0",
     "react-dom": "^16.2.0",
     "react-hot-loader": "^4.0.0-beta.13",
@@ -206,6 +207,7 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "source-map-support": "^0.5.3",
+    "styled-components": "^3.2.6",
     "unzip": "^0.1.11"
   },
   "devEngines": {

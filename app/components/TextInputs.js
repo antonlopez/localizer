@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import _ from 'lodash';
 
 class TextInputsContainer extends Component {
 
@@ -11,11 +12,14 @@ class TextInputsContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps){
+
     if(this.props.counter !== nextProps.counter){
-      this.setState({value: ''});
+            this.setState({value: ''});
+        }
+
     }
 
-  }
+
 
 
   handleChange(event) {
@@ -32,12 +36,18 @@ class TextInputsContainer extends Component {
   }
 
 render() {
+  const { inputValue, devId, text } =this.props;
+  console.log(`${inputValue} devID: ${devId}`);
+  let value = '';
+  if(inputValue !== undefined){
+    value = this.props.inputValue;
+  }
 
 
     return (
-      <Container>
-        <p>{this.props.text}</p>
-        <input type="text" placeholder="Insert Translation" value={this.state.value} onChange={this.handleChange} />
+      <Container done={value.length > 0}>
+        <p>{text}</p>
+        <input type="text" placeholder="Insert Translation" value={value} onChange={this.handleChange} />
       </Container>
     );
 }
@@ -52,6 +62,10 @@ const Container = styled.div`
 
 input{
   height:50%;
+}
+
+p{
+color:${props=> props.done ? '#00FF00' : '#FFF'};
 }
 
 `;

@@ -18,15 +18,17 @@ return dispatch => {
       storeEntries: true
     });
     zip.on('ready', () => {
-      const pathToExtract = `${__dirname}${path.sep}extracted`;
+      const pathToExtract = `${os.homedir()}${path.sep}Desktop${path.sep}extracted`; //used only on windows
 
       fs.mkdirSync(pathToExtract);
-      zip.extract(null, './app/extracted', (err, count) => {
+      console.log(pathToExtract);
+
+      zip.extract(null, pathToExtract, (err, count) => {
         console.log(err ? 'Extract error' : `Extracted ${count} entries`);
         zip.close();
         fs.readFile(`${pathToExtract}/manifest.json`, 'utf8', (error, data) => {
           if (error) {
-            console.log('invalid File');
+            console.log(error);
           }
           // error handling
           const manifest = JSON.parse(data);  // json object form extracted data
@@ -79,6 +81,8 @@ export const generateFile = (output, language) => {
     }
 
     console.log("The file was saved!");
+    const pathToDelete = `${os.homedir()}${path.sep}Desktop${path.sep}extracted`; //used only on windows
+    rimraf(pathToDelete, function () { console.log('done'); });
     dispatch({type: 'FILE_GENERATED'});
 });
 
@@ -88,7 +92,7 @@ export const generateFile = (output, language) => {
 export const deletePrevious = () => {
   return dispatch => {
     dispatch({ type: 'DELETING_FILE' });
-    const pathToDelete = `${__dirname}${path.sep}extracted`;
+    const pathToDelete = `${os.homedir()}${path.sep}Desktop${path.sep}extracted`; //used only on windows
     rimraf(pathToDelete, function () { console.log('done'); });
 
   }

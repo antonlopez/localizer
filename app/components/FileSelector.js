@@ -1,6 +1,7 @@
 import React from "react";
 import {zoomIn} from 'react-animations';
 import styled, {keyframes} from 'styled-components';
+import { PlusButton } from 'react-svg-buttons'
 
 
 export default class FileSelector extends React.Component {
@@ -22,8 +23,8 @@ export default class FileSelector extends React.Component {
     return (
       <Container>
         <Label>
-          <Input type="file" onChange={ (e) => this.handleChange(e) } />
-          <i className="material-icons">note_add</i>
+          <Input type="file" accept=".zip" onChange={ (e) => this.handleChange(e) } />
+          <PlusButton size={90} color="#00FF00" thickness={2} />
         </Label>
       </Container>
     );
@@ -35,6 +36,7 @@ const zoomInAnimation = keyframes`${zoomIn}`;
 const Container = styled.div`
   margin-top: 20px;
   animation: ${zoomInAnimation} .3s ease-in;
+  background-color: transparent;
 `;
 
 const Input = styled.input`
@@ -43,7 +45,7 @@ const Input = styled.input`
 const Label = styled.label`
     padding: 12px 24px;
     cursor: pointer;
-    background: linear-gradient(	#7FFF00, #32CD32);
+    background-color: transparent;
     color: white;
     display: flex;
     flex-direction: column;
@@ -51,7 +53,7 @@ const Label = styled.label`
     font-size: 12px;
     justify-content: space-around;
     border-radius: 2px;
-    box-shadow: 0px 1px 1px rgba(0,0,0,0.5);
+
 
     i{
       font-size: 44px;
