@@ -5,7 +5,8 @@ const INITIAL_STATE = {
   filesExtracted: false,
   translation: {},
   generatingFile: false,
-  fileGenerated: false
+  fileGenerated: false,
+  fileLocation: null
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -48,14 +49,15 @@ export default (state = INITIAL_STATE, action) => {
         generatingFile: false,
         filesExtracted: false,
         fileGenerated: true,
-        translation: {}
+        translation: {},
+        fileLocation: action.fileLocation
       };
 
     case 'SAVE_TRANSLATION':
       return { ...state, translation: { ...state.translation, [action.devKey]: action.text }}
 
     case 'DELETING_FILE':
-      return { ...state, fileGenerated: false }
+      return { ...state, fileGenerated: false, fileLocation: null }
 
     case 'RESET':
       return INITIAL_STATE;

@@ -8,15 +8,11 @@ export default class FileSelector extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.translatePage = this.translatePage.bind(this);
   }
 
   handleChange(e) {
     const pathToZip =  e.target.files[0].path;
-    this.props.unzipFile(pathToZip, this.translatePage);
-  }
-
-  translatePage() {
+    this.props.unzipFile(pathToZip);
   }
 
   render() {

@@ -66,9 +66,10 @@ export const generateFile = (output, language) => {
   return dispatch =>{
     dispatch({type: 'GENERATING_FILE'});
     const result = JSON.stringify(output);
-    const test = os.homedir();
-    let pathToSave = `${os.homedir()}${path.sep}te_language.json`;
     const date = Date.now();
+    const test = os.homedir();
+    let pathToSave = `${os.homedir()}${path.sep}${language}_${date}.json`;
+
 
     if (os.platform() === "win32"){
       pathToSave = `${os.homedir()}${path.sep}Desktop${path.sep}${language}_${date}.json`;
@@ -83,7 +84,7 @@ export const generateFile = (output, language) => {
     console.log("The file was saved!");
     const pathToDelete = `${os.homedir()}${path.sep}Desktop${path.sep}extracted`; //used only on windows
     rimraf(pathToDelete, function () { console.log('done'); });
-    dispatch({type: 'FILE_GENERATED'});
+    dispatch({type: 'FILE_GENERATED', fileLocation: pathToSave });
 });
 
   }

@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import electron from 'electron';
 import { MorphIcon, PlusButton, HomeButton } from 'react-svg-buttons'
 const fs = electron.remote.require('fs');
+const {shell} = require('electron');
 import World from '../Assets/Images/world.png';
 import styles from './Home.css';
 import FileSelector from './FileSelector';
@@ -58,7 +59,7 @@ class Translate extends Component<Props> {
   } else {
     //download
     result[language] = translation;
-   generateFile(result, language);
+    generateFile(result, language);
 
   }
 
@@ -73,6 +74,10 @@ class Translate extends Component<Props> {
         this.setState({ counter: this.state.counter - 1 });
        }
 
+   }
+
+   openFile = () => {
+    shell.showItemInFolder(this.props.fileLocation);
    }
 
   render() {
@@ -103,6 +108,9 @@ class Translate extends Component<Props> {
         <div style={{position:'absolute', height:'100%', width:'100%', display:'flex', justifyContent:'center', alignItems:'center', flexDirection:'column'}}>
           <Link to="/"><MorphIcon type="home" size={220} thickness={6} color="	#00FF00" /></Link>
           <p>Your file has been generated on Desktop!</p>
+          <p style={{color:'#00BFFF', fontSize:'20px', cursor:'pointer'}} onClick= {this.openFile}>
+            <u style = {{textDecoration: 'none', borderBottom: '1px solid #00BFF' }}>Open File <i class="material-icons">description</i></u>
+          </p>
         </div>
         :
         <MenuContainer>
@@ -247,8 +255,8 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => {
-  const { loading, language, manifest, translation, generatingFile, fileGenerated  } = state.translator;
-  return { loading, language, manifest, translation, generatingFile, fileGenerated };
+  const { loading, language, manifest, translation, generatingFile, fileGenerated, fileLocation  } = state.translator;
+  return { loading, language, manifest, translation, generatingFile, fileGenerated, fileLocation };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Translate);
